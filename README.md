@@ -1,6 +1,4 @@
-Got you — here’s a **clean, strong description** for your project that sounds like *you* and can be used for your website, README, pitch, or app store 👇
 
----
 
 # 🌸 New Bloom — Project Description
 
