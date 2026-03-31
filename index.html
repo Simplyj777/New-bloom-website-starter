@@ -1,36 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>New Bloom - All-in-One Preview</title>
-<style>
-* { box-sizing: border-box; }
-body {
-margin: 0;
-font-family: Arial, Helvetica, sans-serif;
-background: linear-gradient(180deg, #fff7fb 0%, #ffe9f3 45%, #fffaf0 100%);
-color: #4b2b3c;
-}
-.sparkles::before,
-.sparkles::after {
-content: "✦ ✨ ✦";
-position: fixed;
-color: rgba(212, 175, 55, 0.3);
-font-size: 22px;
-pointer-events: none;
-z-index: 0;
-}
-.sparkles::before { top: 60px; left: 30px; }
-.sparkles::after { right: 30px; bottom: 60px; }
-.container {
-position: relative;
-z-index: 1;
-max-width: 1200px;
-margin: 0 auto;
-padding: 24px;
-}
-.hero {
-background: rgba(255,255,255,0.76);
-border: 1px solid rgba(212,175,55,0.28);
-border-radius: 28px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Bloom - All-in-One Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #fff7fb 0%, #ffe9f3 45%, #fffaf0 100%);
+      color: #4b2b3c;
+    }
+    .sparkles::before,
+    .sparkles::after {
+      content: "✦ ✨ ✦";
+      position: fixed;
+      color: rgba(212, 175, 55, 0.3);
+      font-size: 22px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .sparkles::before { top: 60px; left: 30px; }
+    .sparkles::after { right: 30px; bottom: 60px; }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(212,175,55,0.28);
+      border-radius: 28px;
+      padding: 42px 26px;
+      text-align: center;
+      box-shadow: 0 14px 40px rgba(167, 83, 128, 0.12);
+      backdrop-filter: blur(8px);
+      margin-top: 24px;
+    }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #f8c6dc, #f7e7a8);
+      color: #7a3f5c;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 { margin: 0 0 12px; }
+    h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: #a44d78;
+    }
+    .hero p {
+      max-width: 800px;
+      margin: 0 auto 18px;
+      line-height: 1.65;
+      font-size: 1.08rem;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, #f2a8c7, #d4af37);
+      color: white;
+      box-shadow: 0 10px 24px rgba(212, 175, 55, 0.25);
+    }
+    .btn-secondary {
+      background: white;
+      color: #a44d78;
+      border: 1px solid #efc4d6;
+    }
+    .section {
+      margin-top: 28px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(212,175,55,0.2);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 10px 28px rgba(167, 83, 128, 0.08);
+    }
+    .section-title {
+      color: #9d456f;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+    }
+    .section-subtitle {
+      color: #7e6170;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: linear-gradient(180deg, #ffffff 0%, #fffafc 100%);
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid #f1d7e2;
+      box-shadow: 0 8px 18px rgba(164, 77, 120, 0.07);
+    }
+    .card h3 {
+      color: #a44d78;
+      font-size: 1.1rem;
+    }
+    .card p, .card li { line-height: 1.6; }
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid #e8cdd9;
+      background: white;
+      font-size: 0.98rem;
+    }
+    .full-width { grid-column: 1 / -1; }
+    .pricing-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+    .pricing-card {
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      border: 1px solid #f0d5e2;
+      box-shadow: 0 10px 24px rgba(164, 77, 120, 0.09);
+      position: relative;
+    }
+    .pricing-card.highlight {
+      border: 2px solid #d4af37;
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.12), 0 14px 32px rgba(212,175,55,0.18);
+    }
+    .tag {
+      position: absolute;
+      top: -12px;
+      right: 18px;
+      background: linear-gradient(135deg, #d4af37, #f5d97f);
+      color: #5e4a06;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #a44d78;
+      margin: 10px 0 8px;
+    }
+    .muted { color: #7b6873; }
+    ul { padding-left: 18px; }
+    .report-box {
+      background: linear-gradient(135deg, #fffdf6, #fff7fb);
+      border: 1px dashed #d4af37;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+    .footer-note {
+      text-align: center;
+      color: #7b6873;
+      font-size: 0.95rem;
+      margin: 28px 0 10px;
+    }
+    code.inline {
+      background: #fff2f8;
+      padding: 2px 8px;
+      border-radius: 8px;
+      color: #8e3d66;
+    }
+    @media (max-width: 600px) {
+      .hero, .section { padding: 20px; }
+      .price { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body class="sparkles">
+  <div class="container">
+    <section class="hero">
+      <div class="badge">🌸 New Bloom All-in-One Starter Preview</div>
+      <h1>Understand your life, your patterns, and what’s coming next.</h1>
+      <p>
+        New Bloom combines numerology, astrology, birth chart interpretation, and AI-powered personal readings into one soft, beautiful experience. This preview puts your welcome page, report structure, premium plans, and feature ideas all in one place so you can copy, edit, and build from it easily.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="scrollToSection('report-builder')">Preview Report Flow</button>
+        <button class="btn btn-secondary" onclick="scrollToSection('pricing')">See Pricing Plans</button>
+      </div>
+    </section>
+
+    <section class="section" id="welcome">
+      <h2 class="section-title">Welcome Page Input Flow</h2>
+      <p class="section-subtitle">
+        This is the main starter form where users enter the details needed to unlock their personalized New Bloom reading.
+      </p>
+      <div class="input-grid">
+        <input type="text" placeholder="Full Name" />
+        <input type="date" placeholder="Date of Birth" />
+        <input type="time" placeholder="Time of Birth" />
+        <input type="text" placeholder="Birth Location" />
+        <select>
+          <option>Choose Reading Focus</option>
+          <option>Full Self-Discovery Report</option>
+          <option>Love + Relationships</option>
+          <option>Career + Purpose</option>
+          <option>Weekly Guidance</option>
+        </select>
+        <input type="email" placeholder="Email for saved reports" />
+        <textarea class="full-width" rows="4" placeholder="Optional: Tell New Bloom what area of life you want guidance on right now"></textarea>
+      </div>
+      <div class="hero-buttons">
+        <button class="btn btn-primary">Generate My Full Bloom Report 🌸</button>
+      </div>
+    </section>
+
+    <section class="section" id="report-builder">
+      <h2 class="section-title">Full Report Experience</h2>
+      <p class="section-subtitle">
+        Your premium report should feel detailed, emotional, and useful. These sections help users feel seen, not just given random information.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>🔢 Full Numerology Report</h3>
+          <ul>
+            <li>Life Path Number</li>
+            <li>Expression / Destiny Number</li>
+            <li>Soul Urge Number</li>
+            <li>Personality Number</li>
+            <li>Birthday Number</li>
+            <li>Maturity Number</li>
+            <li>Personal Year, Month, and Day</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🌌 Full Astrology Report</h3>
+          <ul>
+            <li>Sun, Moon, Rising</li>
+            <li>Mercury, Venus, Mars</li>
+            <li>Jupiter, Saturn</li>
+            <li>Outer planets overview</li>
+            <li>House placements</li>
+            <li>Aspects and patterns</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🤖 AI Personal Reading</h3>
+          <ul>
+            <li>Your current life chapter</li>
+            <li>What this means for your life right now</li>
+            <li>Love and career insights</li>
+            <li>What to release and what to grow into</li>
+            <li>Full report summary</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>📅 Guidance Features</h3>
+          <ul>
+            <li>Weekly personal energy</li>
+            <li>Monthly themes and focus</li>
+            <li>Personal day guidance</li>
+            <li>Suggestions for habits, healing, and alignment</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <h3 style="color:#9d456f;">Example Premium Reading Layout</h3>
+        <p><strong>Life Path Meaning:</strong> A deep explanation of the user’s natural gifts, emotional patterns, challenges, and direction.</p>
+        <p><strong>What This Means For Your Life Right Now:</strong> A paragraph-style AI reading that connects the chart and numbers to the user’s current phase.</p>
+        <p><strong>Career + Love Insights:</strong> Suggested work styles, relationship patterns, emotional needs, and growth areas.</p>
+        <p><strong>Weekly + Monthly Guidance:</strong> A practical section with energy themes, best focus areas, and what to avoid.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Suggested Feature Buttons</h2>
+      <p class="section-subtitle">These are the main sections you said you wanted people to click into.</p>
+      <div class="grid">
+        <div class="card"><h3>Numerology Full Report</h3><p>Detailed meanings for all core numbers, plus personal year, month, and day guidance.</p></div>
+        <div class="card"><h3>Astrology Full Report</h3><p>Sun, Moon, Rising, planet breakdowns, birth chart placements, and chart-based themes.</p></div>
+        <div class="card"><h3>Birth Chart AI Reading</h3><p>AI-generated interpretation of the chart wheel, houses, aspects, and spiritual lessons.</p></div>
+        <div class="card"><h3>Weekly + Monthly Guidance</h3><p>Personalized updates users can return to often, which helps make premium feel worth it.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <h2 class="section-title">Premium Pricing Preview</h2>
+      <p class="section-subtitle">This version follows the pricing direction you asked for and keeps it easy to understand.</p>
+      <div class="pricing-container">
+        <div class="pricing-card">
+          <h3>🌱 Starter Bloom</h3>
+          <div class="price">$5.99<span class="muted"> / month</span></div>
+          <p class="muted">A soft entry point for users discovering New Bloom.</p>
+          <ul>
+            <li>Basic full numerology report</li>
+            <li>Basic astrology overview</li>
+            <li>Weekly personal guidance</li>
+            <li>AI summary reading</li>
+          </ul>
+          <button class="btn btn-primary" onclick="fakeSubscribe('Starter Bloom')">Start My Journey</button>
+        </div>
+
+        <div class="pricing-card highlight">
+          <div class="tag">MOST POPULAR</div>
+          <h3>💎 Full Bloom</h3>
+          <div class="price">$10.99<span class="muted"> / 3 months</span></div>
+          <p class="muted">Best for users who want deeper support over time.</p>
+          <ul>
+            <li>Full numerology report with all meanings</li>
+            <li>Full astrology + birth chart interpretation</li>
+            <li>Weekly and monthly guidance</li>
+            <li>AI personal readings with love + career insights</li>
+            <li>What this means for your life right now section</li>
+          </ul>
+          <button class="btn btn-primary" onclick="fakeSubscribe('Full Bloom')">Unlock Full Bloom ✨</button>
+        </div>
+
+        <div class="pricing-card">
+          <h3>👑 Future Upgrade Plan</h3>
+          <div class="price">Coming Soon</div>
+          <p class="muted">For future premium add-ons and expanded experiences.</p>
+          <ul>
+            <li>Downloadable PDF report</li>
+            <li>Saved results with login</li>
+            <li>Daily personal day notifications</li>
+            <li>Expanded AI chat readings</li>
+          </ul>
+          <button class="btn btn-secondary" onclick="alert('This is a preview button for now.')">Future Upgrade</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Planned Backend Features</h2>
+      <p class="section-subtitle">
+        New Bloom is designed to grow into a full AI-powered self-discovery platform. These are the core backend features that will bring the experience to life.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>🔐 User Accounts & Profiles</h3>
+          <p>
+            Users will be able to sign up, log in, and create a personal profile. This allows them to save their readings, come back to past reports, and track their growth over time.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🧠 AI Reading Engine</h3>
+          <p>
+            A core system powered by AI that generates personalized readings based on numerology, astrology, and user input. This includes paragraph-style insights, "what this means for your life right now," and full report summaries.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🔢 Numerology Calculation System</h3>
+          <p>
+            Backend logic to calculate all core numbers including life path, expression, soul urge, personality, maturity, and personal year/month/day. Each number connects to detailed meanings stored in the system.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🌌 Astrology + Birth Chart API</h3>
+          <p>
+            Integration with an astrology API to generate accurate birth charts, including moon and rising signs, planetary placements, houses, and aspects.
+          </p>
+        </div>
+        <div class="card">
+          <h3>📊 Saved Reports Database</h3>
+          <p>
+            A database to store user data, generated reports, AI readings, and subscription status so users can revisit their insights anytime.
+          </p>
+        </div>
+        <div class="card">
+          <h3>💳 Subscription & Payments</h3>
+          <p>
+            Secure payment system (Stripe) to manage subscriptions, unlock premium features, and track active plans.
+          </p>
+        </div>
+        <div class="card">
+          <h3>📥 PDF Report Generator</h3>
+          <p>
+            Users will be able to download a beautifully designed version of their full report to keep or share.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🔔 Smart Notifications (Future)</h3>
+          <p>
+            Daily, weekly, and monthly personalized notifications based on personal day numbers, astrology transits, and AI insights.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Copy-Ready Notes</h2>
+      <p class="section-subtitle">
+        Everything here is in one file so you can preview it and copy from one place. When you’re ready to make it real, the next step is turning this preview into a full website with working buttons, calculations, login, payments, and AI.
+      </p>
+      <div class="report-box">
+        <p><strong>Fastest next step:</strong> turn this into your main homepage file and then connect the logic section by section.</p>
+        <p><strong>Best first build order:</strong> welcome page → numerology calculator → astrology report → AI reading → login → payments.</p>
+        <p><strong>Helpful note:</strong> the pricing shown here matches what you asked for, but later you may want to test higher pricing once your value feels stronger.</p>
+      </div>
+    </section>
+
+    <p class="footer-note">New Bloom preview file — built as one clean page for easy copying and editing.</p>
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function fakeSubscribe(plan) {
+      alert(plan + ' selected. This button is a preview for now.');
+    }
+  </script>
+  <section class="section" id="about-me">
+      <h2 class="section-title">About Me</h2>
+      <p class="section-subtitle">
+        New Bloom came from my real love for self-discovery, deep research, and wanting to help people understand themselves in a more meaningful way.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>🌸 My Story</h3>
+          <p>
+            I created New Bloom because discovering numerology felt personal for me. It helped me reflect on who I am, how I move through life, and why certain patterns kept showing up. The more I learned, the more I realized that self-discovery can be powerful when it feels personal, beautiful, and easy to connect with.
+          </p>
+          <p>
+            I am someone who naturally likes to research deeply and look beneath the surface. I have always been drawn to learning more about life, hidden meanings, personal growth, and the deeper story behind who people are. That is a big part of why I wanted to create a page like this.
+          </p>
+        </div>
+        <div class="card">
+          <h3>✨ Why I Made New Bloom</h3>
+          <p>
+            I decided to create this page to help others with self-discovery because I know how powerful it can feel when something finally helps you understand yourself better. Sometimes people are looking for clarity. Sometimes they are looking for healing, direction, confirmation, or just a better understanding of their own energy and path.
+          </p>
+          <p>
+            I wanted New Bloom to be a space that feels uplifting and soft, not overwhelming. A place where people can explore numerology, astrology, birth charts, and AI personal readings in a way that feels beautiful, inspiring, and full of life.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🔢 Why Numerology Stands Out To Me</h3>
+          <p>
+            Numerology stands out to me because it feels like more than just numbers. To me, it feels like a mirror. It can reflect your strengths, your lessons, your purpose, and parts of yourself you may have always felt but never had the words for. That made me want to build something that helps other people feel seen too.
+          </p>
+          <p>
+            New Bloom is my way of blending self-discovery with beauty, reflection, and personal insight so people can not only learn more about themselves, but also feel more connected to who they are becoming.
+          </p>
+        </div>
+        <div class="card">
+          <h3>💗 What I Hope People Feel Here</h3>
+          <p>
+            I want people to come to New Bloom and feel like they found a space made with intention. A space where they can pause, reflect, and get insight that feels personal to them. I want this page to help people bloom into a deeper understanding of themselves, their purpose, and the season of life they are in.
+          </p>
+          <p>
+            This is not just about information for me. It is about connection, self-awareness, and helping people feel a little more guided on their journey.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      .petal, .twinkle {
+        position: fixed;
+        top: -40px;
+        pointer-events: none;
+        z-index: 0;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+      .petal {
+        color: rgba(244, 161, 194, 0.75);
+        font-size: 20px;
+        animation-name: fallPetal;
+      }
+      .twinkle {
+        color: rgba(255,255,255,0.8);
+        text-shadow: 0 0 8px rgba(212,175,55,0.6), 0 0 14px rgba(255,255,255,0.9);
+        font-size: 16px;
+        animation-name: sparkleFall;
+      }
+      @keyframes fallPetal {
+        0% { transform: translateY(-40px) translateX(0) rotate(0deg); opacity: 0; }
+        10% { opacity: 1; }
+        100% { transform: translateY(110vh) translateX(80px) rotate(280deg); opacity: 0.2; }
+      }
+      @keyframes sparkleFall {
+        0% { transform: translateY(-40px) scale(0.8); opacity: 0; }
+        15% { opacity: 1; }
+        100% { transform: translateY(110vh) translateX(-40px) scale(1.15); opacity: 0.15; }
+      }
+    </style>
+
+    <script>
+      const bloomIcons = ['🌸','🌺','🌷','💮'];
+      const sparkleIcons = ['✦','✨','✧','❀'];
+
+      function createFloatingElement(className, icons, count, minDuration, maxDuration, minSize, maxSize) {
+        for (let i = 0; i < count; i++) {
+          const el = document.createElement('div');
+          el.className = className;
+          el.textContent = icons[Math.floor(Math.random() * icons.length)];
+          el.style.left = Math.random() * 100 + 'vw';
+          el.style.animationDuration = (Math.random() * (maxDuration - minDuration) + minDuration) + 's';
+          el.style.animationDelay = (Math.random() * 8) + 's';
+          el.style.fontSize = (Math.random() * (maxSize - minSize) + minSize) + 'px';
+          el.style.opacity = Math.random() * 0.6 + 0.2;
+          document.body.appendChild(el);
+        }
+      }
+
+      createFloatingElement('petal', bloomIcons, 18, 9, 18, 16, 28);
+      createFloatingElement('twinkle', sparkleIcons, 22, 7, 14, 10, 20);
+    </script>
+</body>
+</html>
