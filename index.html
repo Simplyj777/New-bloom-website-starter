@@ -3,535 +3,404 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Bloom - All-in-One Preview</title>
+  <title>New Bloom</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #fff7fb 0%, #ffe9f3 45%, #fffaf0 100%);
-      color: #4b2b3c;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #fff7fb 0%, #ffeef6 45%, #fff7ea 100%);
+      color: #5b3a4b;
     }
-    .sparkles::before,
-    .sparkles::after {
-      content: "✦ ✨ ✦";
-      position: fixed;
-      color: rgba(212, 175, 55, 0.3);
-      font-size: 22px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .sparkles::before { top: 60px; left: 30px; }
-    .sparkles::after { right: 30px; bottom: 60px; }
     .container {
-      position: relative;
-      z-index: 1;
       max-width: 1200px;
       margin: 0 auto;
       padding: 24px;
     }
-    .hero {
-      background: rgba(255,255,255,0.76);
-      border: 1px solid rgba(212,175,55,0.28);
+    .hero, .card {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.9);
       border-radius: 28px;
-      padding: 42px 26px;
-      text-align: center;
-      box-shadow: 0 14px 40px rgba(167, 83, 128, 0.12);
-      backdrop-filter: blur(8px);
-      margin-top: 24px;
+      box-shadow: 0 10px 30px rgba(213, 146, 171, 0.18);
     }
+    .hero { padding: 28px; margin-bottom: 24px; }
     .badge {
       display: inline-block;
-      background: linear-gradient(90deg, #f8c6dc, #f7e7a8);
-      color: #7a3f5c;
       padding: 8px 14px;
       border-radius: 999px;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 14px;
+      background: #fff;
+      color: #c05784;
+      font-weight: bold;
+      margin-bottom: 12px;
     }
-    h1, h2, h3 { margin: 0 0 12px; }
-    h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      color: #a44d78;
+    h1 { font-size: 48px; margin: 0 0 12px; color: #b24675; }
+    h2 { margin: 0 0 10px; color: #b24675; }
+    p { line-height: 1.7; }
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
     }
-    .hero p {
-      max-width: 800px;
-      margin: 0 auto 18px;
-      line-height: 1.65;
-      font-size: 1.08rem;
-    }
-    .hero-buttons {
+    .buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      justify-content: center;
-      margin-top: 18px;
+      margin-bottom: 24px;
     }
-    .btn {
-      border: none;
+    button {
+      border: 0;
       border-radius: 999px;
-      padding: 14px 22px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: linear-gradient(135deg, #f2a8c7, #d4af37);
+      padding: 12px 18px;
+      background: linear-gradient(90deg, #f292bb, #efb1c6, #f3d7a6);
       color: white;
-      box-shadow: 0 10px 24px rgba(212, 175, 55, 0.25);
+      font-weight: bold;
+      cursor: pointer;
     }
-    .btn-secondary {
+    button.secondary {
       background: white;
-      color: #a44d78;
-      border: 1px solid #efc4d6;
-    }
-    .section {
-      margin-top: 28px;
-      background: rgba(255,255,255,0.8);
-      border: 1px solid rgba(212,175,55,0.2);
-      border-radius: 24px;
-      padding: 26px;
-      box-shadow: 0 10px 28px rgba(167, 83, 128, 0.08);
-    }
-    .section-title {
-      color: #9d456f;
-      margin-bottom: 10px;
-      font-size: 1.8rem;
-    }
-    .section-subtitle {
-      color: #7e6170;
-      margin-bottom: 18px;
-      line-height: 1.6;
+      color: #b24675;
+      border: 1px solid #f1c8d8;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
     }
-    .card {
-      background: linear-gradient(180deg, #ffffff 0%, #fffafc 100%);
-      border-radius: 20px;
-      padding: 18px;
-      border: 1px solid #f1d7e2;
-      box-shadow: 0 8px 18px rgba(164, 77, 120, 0.07);
-    }
-    .card h3 {
-      color: #a44d78;
-      font-size: 1.1rem;
-    }
-    .card p, .card li { line-height: 1.6; }
-    .input-grid {
+    .card { padding: 22px; }
+    .mini-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-      margin-top: 14px;
     }
-    input, select, textarea {
+    .mini-box {
+      background: rgba(255,255,255,0.85);
+      border-radius: 22px;
+      padding: 16px;
+    }
+    .label { color: #8a6b78; font-size: 14px; }
+    .value { font-size: 34px; font-weight: bold; color: #b24675; margin: 6px 0; }
+    .feature-list div, .saved-report, .mini-note {
+      background: rgba(255,255,255,0.78);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    input {
       width: 100%;
       padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid #e8cdd9;
-      background: white;
-      font-size: 0.98rem;
+      border-radius: 16px;
+      border: 1px solid #f0cddd;
+      margin-top: 6px;
+      margin-bottom: 14px;
     }
-    .full-width { grid-column: 1 / -1; }
-    .pricing-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-    }
-    .pricing-card {
-      background: white;
+    .hidden { display: none; }
+    .summary {
+      background: linear-gradient(90deg, #fff2f6, #fff8ef);
+      border: 1px solid #f6dbe6;
       border-radius: 22px;
-      padding: 24px;
-      border: 1px solid #f0d5e2;
-      box-shadow: 0 10px 24px rgba(164, 77, 120, 0.09);
-      position: relative;
+      padding: 18px;
     }
-    .pricing-card.highlight {
-      border: 2px solid #d4af37;
-      box-shadow: 0 0 0 4px rgba(212,175,55,0.12), 0 14px 32px rgba(212,175,55,0.18);
-    }
-    .tag {
-      position: absolute;
-      top: -12px;
-      right: 18px;
-      background: linear-gradient(135deg, #d4af37, #f5d97f);
-      color: #5e4a06;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .price {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #a44d78;
-      margin: 10px 0 8px;
-    }
-    .muted { color: #7b6873; }
-    ul { padding-left: 18px; }
-    .report-box {
-      background: linear-gradient(135deg, #fffdf6, #fff7fb);
-      border: 1px dashed #d4af37;
-      border-radius: 20px;
-      padding: 20px;
-      margin-top: 16px;
-    }
-    .footer-note {
+    .footer {
+      margin-top: 24px;
       text-align: center;
-      color: #7b6873;
-      font-size: 0.95rem;
-      margin: 28px 0 10px;
+      color: #8a6b78;
     }
-    code.inline {
-      background: #fff2f8;
-      padding: 2px 8px;
-      border-radius: 8px;
-      color: #8e3d66;
-    }
-    @media (max-width: 600px) {
-      .hero, .section { padding: 20px; }
-      .price { font-size: 1.7rem; }
+    @media (max-width: 900px) {
+      .top-grid, .grid, .mini-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 36px; }
     }
   </style>
 </head>
-<body class="sparkles">
+<body>
   <div class="container">
-    <section class="hero">
-      <div class="badge">🌸 New Bloom All-in-One Starter Preview</div>
-      <h1>Understand your life, your patterns, and what’s coming next.</h1>
+    <div class="hero">
+      <div class="badge">🌸 New Bloom</div>
+      <h1>Bloom into deeper self-discovery</h1>
       <p>
-        New Bloom combines numerology, astrology, birth chart interpretation, and AI-powered personal readings into one soft, beautiful experience. This preview puts your welcome page, report structure, premium plans, and feature ideas all in one place so you can copy, edit, and build from it easily.
+        New Bloom is an informational self-discovery website designed to help users understand themselves through multiple systems.
+        Chinese Zodiac provides personality insight based on birth year. Numerology analyzes names and birth dates to calculate core numbers.
+        Birth Chart introduces astrology through birth date, time, and place, with room to expand into full natal chart analysis later.
       </p>
-      <div class="hero-buttons">
-        <button class="btn btn-primary" onclick="scrollToSection('report-builder')">Preview Report Flow</button>
-        <button class="btn btn-secondary" onclick="scrollToSection('pricing')">See Pricing Plans</button>
-      </div>
-    </section>
+    </div>
 
-    <section class="section" id="welcome">
-      <h2 class="section-title">Welcome Page Input Flow</h2>
-      <p class="section-subtitle">
-        This is the main starter form where users enter the details needed to unlock their personalized New Bloom reading.
-      </p>
-      <div class="input-grid">
-        <input type="text" placeholder="Full Name" />
-        <input type="date" placeholder="Date of Birth" />
-        <input type="time" placeholder="Time of Birth" />
-        <input type="text" placeholder="Birth Location" />
-        <select>
-          <option>Choose Reading Focus</option>
-          <option>Full Self-Discovery Report</option>
-          <option>Love + Relationships</option>
-          <option>Career + Purpose</option>
-          <option>Weekly Guidance</option>
-        </select>
-        <input type="email" placeholder="Email for saved reports" />
-        <textarea class="full-width" rows="4" placeholder="Optional: Tell New Bloom what area of life you want guidance on right now"></textarea>
-      </div>
-      <div class="hero-buttons">
-        <button class="btn btn-primary">Generate My Full Bloom Report 🌸</button>
-      </div>
-    </section>
+    <div class="buttons">
+      <button onclick="showTab('home')">Home</button>
+      <button class="secondary" onclick="showTab('zodiac')">Chinese Zodiac</button>
+      <button class="secondary" onclick="showTab('numerology')">Numerology</button>
+      <button class="secondary" onclick="showTab('birthchart')">Birth Chart</button>
+    </div>
 
-    <section class="section" id="report-builder">
-      <h2 class="section-title">Full Report Experience</h2>
-      <p class="section-subtitle">
-        Your premium report should feel detailed, emotional, and useful. These sections help users feel seen, not just given random information.
-      </p>
+    <div id="home" class="tab">
+      <div class="top-grid">
+        <div class="card">
+          <h2>Welcome to New Bloom</h2>
+          <p><strong>Chinese Zodiac</strong> explains personality traits, strengths, challenges, and career tendencies based on birth year.</p>
+          <p><strong>Numerology</strong> calculates Life Path, Expression, Soul Urge, Personality, and Personal Year to offer insight into life direction and inner motivations.</p>
+          <p><strong>Birth Chart</strong> introduces astrology using birth details to identify core placements such as sun sign, with room for future backend API expansion.</p>
+          <div class="feature-list">
+            <div><strong>Informational:</strong> each section explains concepts clearly so users learn while exploring.</div>
+            <div><strong>Structured:</strong> inputs create consistent outputs using numerology and astrology systems.</div>
+            <div><strong>Expandable:</strong> the platform is ready for backend integrations and advanced features.</div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Planned Backend Features</h2>
+          <div class="feature-list">
+            <div>User authentication with secure login and saved dashboards</div>
+            <div>Database storage for saved readings and report history</div>
+            <div>Real astrology API for moon sign, rising sign, and houses</div>
+            <div>Advanced numerology engine with deeper interpretations</div>
+            <div>AI-generated personalized summaries based on all inputs</div>
+            <div>Styled PDF report generation</div>
+            <div>Subscription and payment system for premium features</div>
+            <div>Email delivery for saved readings and reports</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="zodiac" class="tab hidden">
       <div class="grid">
         <div class="card">
-          <h3>🔢 Full Numerology Report</h3>
-          <ul>
-            <li>Life Path Number</li>
-            <li>Expression / Destiny Number</li>
-            <li>Soul Urge Number</li>
-            <li>Personality Number</li>
-            <li>Birthday Number</li>
-            <li>Maturity Number</li>
-            <li>Personal Year, Month, and Day</li>
-          </ul>
+          <h2>Chinese Zodiac</h2>
+          <label>Birth Year</label>
+          <input id="zodiacYear" placeholder="Example: 1998" />
+          <button onclick="runZodiac()">Reveal My Chinese Zodiac</button>
         </div>
         <div class="card">
-          <h3>🌌 Full Astrology Report</h3>
-          <ul>
-            <li>Sun, Moon, Rising</li>
-            <li>Mercury, Venus, Mars</li>
-            <li>Jupiter, Saturn</li>
-            <li>Outer planets overview</li>
-            <li>House placements</li>
-            <li>Aspects and patterns</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>🤖 AI Personal Reading</h3>
-          <ul>
-            <li>Your current life chapter</li>
-            <li>What this means for your life right now</li>
-            <li>Love and career insights</li>
-            <li>What to release and what to grow into</li>
-            <li>Full report summary</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>📅 Guidance Features</h3>
-          <ul>
-            <li>Weekly personal energy</li>
-            <li>Monthly themes and focus</li>
-            <li>Personal day guidance</li>
-            <li>Suggestions for habits, healing, and alignment</li>
-          </ul>
+          <h2>Your Result</h2>
+          <div id="zodiacResult">Enter a birth year and click the button to see your result.</div>
         </div>
       </div>
+    </div>
 
-      <div class="report-box">
-        <h3 style="color:#9d456f;">Example Premium Reading Layout</h3>
-        <p><strong>Life Path Meaning:</strong> A deep explanation of the user’s natural gifts, emotional patterns, challenges, and direction.</p>
-        <p><strong>What This Means For Your Life Right Now:</strong> A paragraph-style AI reading that connects the chart and numbers to the user’s current phase.</p>
-        <p><strong>Career + Love Insights:</strong> Suggested work styles, relationship patterns, emotional needs, and growth areas.</p>
-        <p><strong>Weekly + Monthly Guidance:</strong> A practical section with energy themes, best focus areas, and what to avoid.</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Suggested Feature Buttons</h2>
-      <p class="section-subtitle">These are the main sections you said you wanted people to click into.</p>
-      <div class="grid">
-        <div class="card"><h3>Numerology Full Report</h3><p>Detailed meanings for all core numbers, plus personal year, month, and day guidance.</p></div>
-        <div class="card"><h3>Astrology Full Report</h3><p>Sun, Moon, Rising, planet breakdowns, birth chart placements, and chart-based themes.</p></div>
-        <div class="card"><h3>Birth Chart AI Reading</h3><p>AI-generated interpretation of the chart wheel, houses, aspects, and spiritual lessons.</p></div>
-        <div class="card"><h3>Weekly + Monthly Guidance</h3><p>Personalized updates users can return to often, which helps make premium feel worth it.</p></div>
-      </div>
-    </section>
-
-    <section class="section" id="pricing">
-      <h2 class="section-title">Premium Pricing Preview</h2>
-      <p class="section-subtitle">This version follows the pricing direction you asked for and keeps it easy to understand.</p>
-      <div class="pricing-container">
-        <div class="pricing-card">
-          <h3>🌱 Starter Bloom</h3>
-          <div class="price">$5.99<span class="muted"> / month</span></div>
-          <p class="muted">A soft entry point for users discovering New Bloom.</p>
-          <ul>
-            <li>Basic full numerology report</li>
-            <li>Basic astrology overview</li>
-            <li>Weekly personal guidance</li>
-            <li>AI summary reading</li>
-          </ul>
-          <button class="btn btn-primary" onclick="fakeSubscribe('Starter Bloom')">Start My Journey</button>
-        </div>
-
-        <div class="pricing-card highlight">
-          <div class="tag">MOST POPULAR</div>
-          <h3>💎 Full Bloom</h3>
-          <div class="price">$10.99<span class="muted"> / 3 months</span></div>
-          <p class="muted">Best for users who want deeper support over time.</p>
-          <ul>
-            <li>Full numerology report with all meanings</li>
-            <li>Full astrology + birth chart interpretation</li>
-            <li>Weekly and monthly guidance</li>
-            <li>AI personal readings with love + career insights</li>
-            <li>What this means for your life right now section</li>
-          </ul>
-          <button class="btn btn-primary" onclick="fakeSubscribe('Full Bloom')">Unlock Full Bloom ✨</button>
-        </div>
-
-        <div class="pricing-card">
-          <h3>👑 Future Upgrade Plan</h3>
-          <div class="price">Coming Soon</div>
-          <p class="muted">For future premium add-ons and expanded experiences.</p>
-          <ul>
-            <li>Downloadable PDF report</li>
-            <li>Saved results with login</li>
-            <li>Daily personal day notifications</li>
-            <li>Expanded AI chat readings</li>
-          </ul>
-          <button class="btn btn-secondary" onclick="alert('This is a preview button for now.')">Future Upgrade</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Planned Backend Features</h2>
-      <p class="section-subtitle">
-        New Bloom is designed to grow into a full AI-powered self-discovery platform. These are the core backend features that will bring the experience to life.
-      </p>
+    <div id="numerology" class="tab hidden">
       <div class="grid">
         <div class="card">
-          <h3>🔐 User Accounts & Profiles</h3>
-          <p>
-            Users will be able to sign up, log in, and create a personal profile. This allows them to save their readings, come back to past reports, and track their growth over time.
-          </p>
+          <h2>Numerology</h2>
+          <label>Full Name</label>
+          <input id="fullName" placeholder="Enter your full name" />
+          <label>Date of Birth</label>
+          <input id="dob" type="date" />
+          <button onclick="runNumerology()">Reveal My Numbers</button>
         </div>
         <div class="card">
-          <h3>🧠 AI Reading Engine</h3>
-          <p>
-            A core system powered by AI that generates personalized readings based on numerology, astrology, and user input. This includes paragraph-style insights, "what this means for your life right now," and full report summaries.
-          </p>
-        </div>
-        <div class="card">
-          <h3>🔢 Numerology Calculation System</h3>
-          <p>
-            Backend logic to calculate all core numbers including life path, expression, soul urge, personality, maturity, and personal year/month/day. Each number connects to detailed meanings stored in the system.
-          </p>
-        </div>
-        <div class="card">
-          <h3>🌌 Astrology + Birth Chart API</h3>
-          <p>
-            Integration with an astrology API to generate accurate birth charts, including moon and rising signs, planetary placements, houses, and aspects.
-          </p>
-        </div>
-        <div class="card">
-          <h3>📊 Saved Reports Database</h3>
-          <p>
-            A database to store user data, generated reports, AI readings, and subscription status so users can revisit their insights anytime.
-          </p>
-        </div>
-        <div class="card">
-          <h3>💳 Subscription & Payments</h3>
-          <p>
-            Secure payment system (Stripe) to manage subscriptions, unlock premium features, and track active plans.
-          </p>
-        </div>
-        <div class="card">
-          <h3>📥 PDF Report Generator</h3>
-          <p>
-            Users will be able to download a beautifully designed version of their full report to keep or share.
-          </p>
-        </div>
-        <div class="card">
-          <h3>🔔 Smart Notifications (Future)</h3>
-          <p>
-            Daily, weekly, and monthly personalized notifications based on personal day numbers, astrology transits, and AI insights.
-          </p>
+          <h2>Your Numbers</h2>
+          <div id="numerologyEmpty">Enter your name and birth date to reveal your numerology chart.</div>
+          <div id="numerologyResult" class="hidden">
+            <div class="mini-grid" id="numberCards"></div>
+            <div class="summary" style="margin-top:14px;">
+              <div class="label">Your Personal Year</div>
+              <div class="value" id="personalYearValue">-</div>
+              <p id="personalYearText"></p>
+            </div>
+            <div class="summary" style="margin-top:14px;">
+              <h3 style="margin-top:0;color:#b24675;">Full Report Summary</h3>
+              <p id="fullSummary"></p>
+            </div>
+            <div class="grid" style="margin-top:14px;">
+              <div class="mini-note">
+                <h3 style="margin-top:0;color:#b24675;">Download Your Reading</h3>
+                <p>Export a simple text version of your reading to keep for later.</p>
+                <button onclick="downloadReading()">Download Reading</button>
+              </div>
+              <div class="mini-note">
+                <h3 style="margin-top:0;color:#b24675;">Save Results With Login</h3>
+                <input id="loginName" placeholder="Your name" />
+                <input id="loginEmail" placeholder="Your email" />
+                <button onclick="saveReport()">Save My Report</button>
+              </div>
+            </div>
+            <div id="savedReportsWrap" class="hidden" style="margin-top:14px;">
+              <div class="summary">
+                <h3 style="margin-top:0;color:#b24675;">Saved Reports</h3>
+                <div id="savedReports"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="section">
-      <h2 class="section-title">Copy-Ready Notes</h2>
-      <p class="section-subtitle">
-        Everything here is in one file so you can preview it and copy from one place. When you’re ready to make it real, the next step is turning this preview into a full website with working buttons, calculations, login, payments, and AI.
-      </p>
-      <div class="report-box">
-        <p><strong>Fastest next step:</strong> turn this into your main homepage file and then connect the logic section by section.</p>
-        <p><strong>Best first build order:</strong> welcome page → numerology calculator → astrology report → AI reading → login → payments.</p>
-        <p><strong>Helpful note:</strong> the pricing shown here matches what you asked for, but later you may want to test higher pricing once your value feels stronger.</p>
+    <div id="birthchart" class="tab hidden">
+      <div class="grid">
+        <div class="card">
+          <h2>Birth Chart</h2>
+          <label>Birth Date</label>
+          <input id="birthDate" type="date" />
+          <label>Birth Time</label>
+          <input id="birthTime" type="time" />
+          <label>Birth Place</label>
+          <input id="birthPlace" placeholder="City, State/Country" />
+          <button onclick="runBirthChart()">View Birth Chart Preview</button>
+        </div>
+        <div class="card">
+          <h2>Chart Preview</h2>
+          <div id="birthResult">Enter your birth details to see a preview.</div>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <p class="footer-note">New Bloom preview file — built as one clean page for easy copying and editing.</p>
+    <div class="footer">New Bloom • spring glow theme • self-discovery preview</div>
   </div>
 
   <script>
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    const zodiacAnimals = ["Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Goat","Monkey","Rooster","Dog","Pig"];
+    const zodiacDetails = {
+      Rat:{traits:"Quick-minded, adaptable, resourceful, charming", strengths:"Smart decisions, social intelligence, survival instinct", challenges:"Overthinking, secrecy, nervous energy", career:"Research, sales, strategy, business, media"},
+      Ox:{traits:"Steady, dependable, patient, grounded", strengths:"Discipline, loyalty, consistency", challenges:"Stubbornness, resistance to change", career:"Management, finance, engineering, operations"},
+      Tiger:{traits:"Bold, magnetic, passionate, fearless", strengths:"Leadership, courage, independence", challenges:"Impulsiveness, restlessness", career:"Entrepreneurship, activism, entertainment, sports"},
+      Rabbit:{traits:"Gentle, thoughtful, elegant, intuitive", strengths:"Diplomacy, calm energy, emotional awareness", challenges:"Avoiding conflict, sensitivity", career:"Design, counseling, beauty, hospitality"},
+      Dragon:{traits:"Powerful, visionary, confident, vibrant", strengths:"Ambition, presence, big-picture thinking", challenges:"Intensity, pride, impatience", career:"Leadership, branding, public speaking, innovation"},
+      Snake:{traits:"Wise, mysterious, strategic, refined", strengths:"Deep thinking, intuition, elegance", challenges:"Distrust, emotional reserve", career:"Psychology, writing, research, luxury industries"},
+      Horse:{traits:"Free-spirited, energetic, expressive, driven", strengths:"Confidence, movement, charm", challenges:"Impatience, inconsistency", career:"Travel, sales, events, performance"},
+      Goat:{traits:"Creative, warm, empathetic, artistic", strengths:"Compassion, imagination, emotional depth", challenges:"Self-doubt, moodiness", career:"Art, wellness, education, nonprofit work"},
+      Monkey:{traits:"Clever, playful, inventive, curious", strengths:"Problem solving, wit, adaptability", challenges:"Scattered focus, trickster energy", career:"Tech, marketing, design, entrepreneurship"},
+      Rooster:{traits:"Sharp, expressive, organized, confident", strengths:"Presentation, precision, discipline", challenges:"Criticism, perfectionism", career:"Fashion, project leadership, analysis, communication"},
+      Dog:{traits:"Loyal, honest, protective, sincere", strengths:"Integrity, devotion, fairness", challenges:"Worry, cynicism, guardedness", career:"Law, advocacy, public service, counseling"},
+      Pig:{traits:"Warm, generous, sincere, pleasure-loving", strengths:"Kindness, abundance mindset, loyalty", challenges:"Overgiving, avoidance, indulgence", career:"Care work, hospitality, food, community building"}
+    };
+    const lifePathMeanings = {
+      1:"Independent, original, and called to lead.",2:"Sensitive, diplomatic, and naturally cooperative.",3:"Expressive, joyful, and creatively gifted.",4:"Reliable, practical, and here to build.",5:"Freedom-loving, versatile, and adventurous.",6:"Nurturing, loving, and service oriented.",7:"Introspective, spiritual, and analytical.",8:"Powerful, ambitious, and business-minded.",9:"Compassionate, wise, and humanitarian.",11:"Intuitive visionary with spiritual sensitivity.",22:"Master builder with the power to manifest big ideas.",33:"Master teacher with deep healing and heart energy."
+    };
+    const personalYearMeanings = {
+      1:"A year of fresh starts, independence, leadership, and planting new seeds.",2:"A slower year focused on patience, relationships, intuition, and emotional balance.",3:"A creative year for visibility, joy, self-expression, and social connection.",4:"A practical year for structure, hard work, stability, and building strong foundations.",5:"A year of movement, freedom, change, adventure, and major shifts.",6:"A heart-centered year focused on love, family, home, beauty, and responsibility.",7:"A reflective year for inner healing, spiritual growth, wisdom, and solitude.",8:"A powerful year for success, money, ambition, confidence, and authority.",9:"A transformational year of completion, release, forgiveness, and emotional clearing.",11:"A spiritually heightened year of intuition, inspiration, illumination, and awakening.",22:"A master builder year for turning dreams into reality through vision and grounded action.",33:"A sacred service year centered on compassion, healing, teaching, and upliftment."
+    };
+    let latestSummary = "";
+    let savedReports = [];
+
+    function showTab(tab) {
+      document.querySelectorAll('.tab').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tab).classList.remove('hidden');
     }
 
-    function fakeSubscribe(plan) {
-      alert(plan + ' selected. This button is a preview for now.');
+    function reduceNumber(num, keepMasters = true) {
+      let n = Number(num);
+      while (n > 9 && (!keepMasters || ![11,22,33].includes(n))) {
+        n = n.toString().split('').reduce((sum, digit) => sum + Number(digit), 0);
+      }
+      return n;
+    }
+
+    function charValue(char) {
+      const map = {A:1,J:1,S:1,B:2,K:2,T:2,C:3,L:3,U:3,D:4,M:4,V:4,E:5,N:5,W:5,F:6,O:6,X:6,G:7,P:7,Y:7,H:8,Q:8,Z:8,I:9,R:9};
+      return map[char.toUpperCase()] || 0;
+    }
+
+    function cleanName(name) { return (name || '').replace(/[^a-zA-Z]/g, ''); }
+    function calculateExpression(name) { return reduceNumber(cleanName(name).split('').reduce((sum, char) => sum + charValue(char), 0)); }
+    function calculateSoulUrge(name) { return reduceNumber(cleanName(name).split('').filter(ch => 'AEIOUaeiou'.includes(ch)).reduce((sum, ch) => sum + charValue(ch), 0) || 0); }
+    function calculatePersonality(name) { return reduceNumber(cleanName(name).split('').filter(ch => !'AEIOUaeiou'.includes(ch)).reduce((sum, ch) => sum + charValue(ch), 0) || 0); }
+    function calculateLifePath(dateStr) { return reduceNumber(dateStr.replace(/-/g,'').split('').map(Number).reduce((a,b)=>a+b,0)); }
+    function calculatePersonalYear(dateStr) {
+      const date = new Date(dateStr + 'T00:00:00');
+      const month = date.getMonth()+1; const day = date.getDate();
+      const yearReduced = reduceNumber(new Date().getFullYear().toString().split('').reduce((sum,d)=>sum+Number(d),0));
+      return reduceNumber(reduceNumber(month+day) + yearReduced);
+    }
+
+    function generateReading(number) {
+      const life = {1:"You are being called to step into leadership and trust yourself more.",2:"Your life is asking for balance, patience, and deeper emotional awareness.",3:"This is a time to express yourself and be seen authentically.",4:"Focus on building structure and creating long-term stability.",5:"Change is happening, so embrace it instead of resisting it.",6:"Relationships, love, and responsibility are central right now.",7:"You are in a phase of inner growth and self-reflection.",8:"Power, success, and confidence are being activated in your life.",9:"You are closing cycles and stepping into transformation."};
+      const career = {1:"Leadership roles, entrepreneurship, and independence-based careers align with you.",2:"You thrive in supportive roles like counseling, teamwork, or partnerships.",3:"Creative fields, content creation, and communication-based work suit you.",4:"Structured careers like finance, systems, or operations are ideal.",5:"Careers with freedom, travel, or variety will keep you fulfilled.",6:"Caregiving, teaching, and community-focused work align best.",7:"Research, spirituality, and analytical careers fit your energy.",8:"Business, leadership, and money-driven careers are strong paths.",9:"Humanitarian work, healing, and impact-driven careers suit you."};
+      const love = {1:"You need independence in love but also emotional openness.",2:"You seek deep emotional connection and harmony in relationships.",3:"You bring joy and expression into love but must avoid inconsistency.",4:"You are loyal and stable but may struggle with emotional expression.",5:"You need freedom in relationships and dislike feeling restricted.",6:"You are naturally loving and devoted, often prioritizing others.",7:"You are selective in love and need deep mental or spiritual connection.",8:"You value power, loyalty, and stability in relationships.",9:"You love deeply but must avoid overgiving."};
+      return { life: life[number] || "You are in a unique phase of growth.", career: career[number] || "Your career path is evolving.", love: love[number] || "Your love life is evolving." };
+    }
+
+    function runZodiac() {
+      const y = Number(document.getElementById('zodiacYear').value);
+      if (!y) return;
+      const animal = zodiacAnimals[((y - 4) % 12 + 12) % 12];
+      const d = zodiacDetails[animal];
+      document.getElementById('zodiacResult').innerHTML = `
+        <div class="mini-box"><div class="value" style="font-size:28px">${animal}</div></div>
+        <div class="mini-box"><strong>Traits:</strong> ${d.traits}</div>
+        <div class="mini-box"><strong>Strengths:</strong> ${d.strengths}</div>
+        <div class="mini-box"><strong>Challenges:</strong> ${d.challenges}</div>
+        <div class="mini-box"><strong>Career Energy:</strong> ${d.career}</div>
+      `;
+    }
+
+    function runNumerology() {
+      const name = document.getElementById('fullName').value;
+      const dob = document.getElementById('dob').value;
+      if (!name || !dob) return;
+      const results = {
+        lifePath: calculateLifePath(dob),
+        expression: calculateExpression(name),
+        soulUrge: calculateSoulUrge(name),
+        personality: calculatePersonality(name),
+        personalYear: calculatePersonalYear(dob)
+      };
+      const cards = [
+        ['Life Path', results.lifePath],
+        ['Expression', results.expression],
+        ['Soul Urge', results.soulUrge],
+        ['Personality', results.personality]
+      ];
+      document.getElementById('numberCards').innerHTML = cards.map(([label, value]) => {
+        const r = generateReading(value);
+        return `<div class="mini-box">
+          <div class="label">${label}</div>
+          <div class="value">${value}</div>
+          <p>${lifePathMeanings[value] || 'A unique energetic pattern.'}</p>
+          <p><strong>What this means right now:</strong> ${r.life}</p>
+          <p><strong>Career insight:</strong> ${r.career}</p>
+          <p><strong>Love insight:</strong> ${r.love}</p>
+        </div>`;
+      }).join('');
+      document.getElementById('personalYearValue').textContent = results.personalYear;
+      document.getElementById('personalYearText').textContent = personalYearMeanings[results.personalYear] || 'A year of meaningful growth and change.';
+      latestSummary = `Your chart highlights a Life Path ${results.lifePath}, Expression ${results.expression}, Soul Urge ${results.soulUrge}, Personality ${results.personality}, and Personal Year ${results.personalYear}. Right now, your numbers suggest a season of growth, deeper self-awareness, and clearer direction.`;
+      document.getElementById('fullSummary').textContent = latestSummary;
+      document.getElementById('numerologyEmpty').classList.add('hidden');
+      document.getElementById('numerologyResult').classList.remove('hidden');
+    }
+
+    function downloadReading() {
+      if (!latestSummary) return;
+      const blob = new Blob([latestSummary], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'new-bloom-reading.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function saveReport() {
+      const name = document.getElementById('loginName').value;
+      const email = document.getElementById('loginEmail').value;
+      if (!name || !email || !latestSummary) return;
+      savedReports.unshift({ name, email, summary: latestSummary, date: new Date().toLocaleDateString() });
+      document.getElementById('savedReportsWrap').classList.remove('hidden');
+      document.getElementById('savedReports').innerHTML = savedReports.map(r => `<div class="saved-report"><strong>${r.name}</strong><br><span class="label">${r.email} • ${r.date}</span><p>${r.summary}</p></div>`).join('');
+    }
+
+    function runBirthChart() {
+      const date = document.getElementById('birthDate').value;
+      if (!date) return;
+      const d = new Date(date + 'T00:00:00');
+      const month = d.getMonth() + 1;
+      const day = d.getDate();
+      let sun = 'Pisces';
+      if ((month===3&&day>=21)||(month===4&&day<=19)) sun='Aries';
+      else if ((month===4&&day>=20)||(month===5&&day<=20)) sun='Taurus';
+      else if ((month===5&&day>=21)||(month===6&&day<=20)) sun='Gemini';
+      else if ((month===6&&day>=21)||(month===7&&day<=22)) sun='Cancer';
+      else if ((month===7&&day>=23)||(month===8&&day<=22)) sun='Leo';
+      else if ((month===8&&day>=23)||(month===9&&day<=22)) sun='Virgo';
+      else if ((month===9&&day>=23)||(month===10&&day<=22)) sun='Libra';
+      else if ((month===10&&day>=23)||(month===11&&day<=21)) sun='Scorpio';
+      else if ((month===11&&day>=22)||(month===12&&day<=21)) sun='Sagittarius';
+      else if ((month===12&&day>=22)||(month===1&&day<=19)) sun='Capricorn';
+      else if ((month===1&&day>=20)||(month===2&&day<=18)) sun='Aquarius';
+      document.getElementById('birthResult').innerHTML = `
+        <div class="mini-box"><div class="label">Sun Sign</div><div class="value" style="font-size:28px">${sun}</div></div>
+        <div class="mini-box"><strong>Summary:</strong> This preview gives you a clean starting point for your birth chart journey.</div>
+        <div class="mini-box"><strong>Next Backend Upgrade:</strong> Connect date, time, and birthplace to a real astrology API so users receive true natal chart placements.</div>
+      `;
     }
   </script>
-  <section class="section" id="about-me">
-      <h2 class="section-title">About Me</h2>
-      <p class="section-subtitle">
-        New Bloom came from my real love for self-discovery, deep research, and wanting to help people understand themselves in a more meaningful way.
-      </p>
-      <div class="grid">
-        <div class="card">
-          <h3>🌸 My Story</h3>
-          <p>
-            I created New Bloom because discovering numerology felt personal for me. It helped me reflect on who I am, how I move through life, and why certain patterns kept showing up. The more I learned, the more I realized that self-discovery can be powerful when it feels personal, beautiful, and easy to connect with.
-          </p>
-          <p>
-            I am someone who naturally likes to research deeply and look beneath the surface. I have always been drawn to learning more about life, hidden meanings, personal growth, and the deeper story behind who people are. That is a big part of why I wanted to create a page like this.
-          </p>
-        </div>
-        <div class="card">
-          <h3>✨ Why I Made New Bloom</h3>
-          <p>
-            I decided to create this page to help others with self-discovery because I know how powerful it can feel when something finally helps you understand yourself better. Sometimes people are looking for clarity. Sometimes they are looking for healing, direction, confirmation, or just a better understanding of their own energy and path.
-          </p>
-          <p>
-            I wanted New Bloom to be a space that feels uplifting and soft, not overwhelming. A place where people can explore numerology, astrology, birth charts, and AI personal readings in a way that feels beautiful, inspiring, and full of life.
-          </p>
-        </div>
-        <div class="card">
-          <h3>🔢 Why Numerology Stands Out To Me</h3>
-          <p>
-            Numerology stands out to me because it feels like more than just numbers. To me, it feels like a mirror. It can reflect your strengths, your lessons, your purpose, and parts of yourself you may have always felt but never had the words for. That made me want to build something that helps other people feel seen too.
-          </p>
-          <p>
-            New Bloom is my way of blending self-discovery with beauty, reflection, and personal insight so people can not only learn more about themselves, but also feel more connected to who they are becoming.
-          </p>
-        </div>
-        <div class="card">
-          <h3>💗 What I Hope People Feel Here</h3>
-          <p>
-            I want people to come to New Bloom and feel like they found a space made with intention. A space where they can pause, reflect, and get insight that feels personal to them. I want this page to help people bloom into a deeper understanding of themselves, their purpose, and the season of life they are in.
-          </p>
-          <p>
-            This is not just about information for me. It is about connection, self-awareness, and helping people feel a little more guided on their journey.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <style>
-      .petal, .twinkle {
-        position: fixed;
-        top: -40px;
-        pointer-events: none;
-        z-index: 0;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-      }
-      .petal {
-        color: rgba(244, 161, 194, 0.75);
-        font-size: 20px;
-        animation-name: fallPetal;
-      }
-      .twinkle {
-        color: rgba(255,255,255,0.8);
-        text-shadow: 0 0 8px rgba(212,175,55,0.6), 0 0 14px rgba(255,255,255,0.9);
-        font-size: 16px;
-        animation-name: sparkleFall;
-      }
-      @keyframes fallPetal {
-        0% { transform: translateY(-40px) translateX(0) rotate(0deg); opacity: 0; }
-        10% { opacity: 1; }
-        100% { transform: translateY(110vh) translateX(80px) rotate(280deg); opacity: 0.2; }
-      }
-      @keyframes sparkleFall {
-        0% { transform: translateY(-40px) scale(0.8); opacity: 0; }
-        15% { opacity: 1; }
-        100% { transform: translateY(110vh) translateX(-40px) scale(1.15); opacity: 0.15; }
-      }
-    </style>
-
-    <script>
-      const bloomIcons = ['🌸','🌺','🌷','💮'];
-      const sparkleIcons = ['✦','✨','✧','❀'];
-
-      function createFloatingElement(className, icons, count, minDuration, maxDuration, minSize, maxSize) {
-        for (let i = 0; i < count; i++) {
-          const el = document.createElement('div');
-          el.className = className;
-          el.textContent = icons[Math.floor(Math.random() * icons.length)];
-          el.style.left = Math.random() * 100 + 'vw';
-          el.style.animationDuration = (Math.random() * (maxDuration - minDuration) + minDuration) + 's';
-          el.style.animationDelay = (Math.random() * 8) + 's';
-          el.style.fontSize = (Math.random() * (maxSize - minSize) + minSize) + 'px';
-          el.style.opacity = Math.random() * 0.6 + 0.2;
-          document.body.appendChild(el);
-        }
-      }
-
-      createFloatingElement('petal', bloomIcons, 18, 9, 18, 16, 28);
-      createFloatingElement('twinkle', sparkleIcons, 22, 7, 14, 10, 20);
-    </script>
 </body>
 </html>
+
