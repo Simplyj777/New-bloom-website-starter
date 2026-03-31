@@ -34,4 +34,4 @@ track their personal growth over time
 receive ongoing guidance
 save and revisit their readings
 feel more aligned with who they are becoming
- https://simplyj777.github.io/New-bloom-website-starter/
+ 
