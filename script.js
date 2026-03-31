@@ -17,3 +17,11 @@ function generateReport() {
   alert("Your Life Path Number is: " + lifePath);
 }
 <button onclick="generateReport()">Generate My Full Bloom Report 🌸</button>
+function getSunSign(date) {
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+
+  if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
+  // add others later
+}
